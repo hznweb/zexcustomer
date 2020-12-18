@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>知而行客户管理系统登录</title>
+    <!--导入layui插件-->
+    <link rel="stylesheet" href="../plugins/layui/css/layui.css">
+    <script src="../plugins/layui/layui.js"></script>
+    <!--导入jquery插件-->
+    <script src="../plugins/jquery.js"></script>
+    <!--导入自己的插件-->
+    <script src="../js/my_base_js.js"></script>
+    <link href="../css/login.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+<div class="login_box">
+
+    <form id="myForm" class="layui-form layui-form-pane" action="" >
+    <div class="login_l_img"><img src="../image/login-img.png"/></div>
+    <div class="login">
+        <div class="login_logo"><a href="#"><img src="../image/logotm.png"/></a></div>
+        <div class="login_name">
+            <p>知而行客户管理系统</p>
+        </div>
+        <form method="post" class="layui-form layui-form-pane">
+            <div>
+                <input type="text" name="username" lay-verify="username" placeholder="请输入用户名"
+                       autocomplete="off"
+                       class="layui-input admin-input admin-input-username">
+            </div>
+            <div>
+                <input type="password" name="password" lay-verify="password"
+                       placeholder="请输入密码"
+                       autocomplete="off"
+                       class="layui-input admin-input" style="padding: 25px">
+            </div>
+            <button  class="layui-btn admin-button" lay-submit="" lay-filter="login_button">登陆</button>
+
+        </form>
+    </div>
+    </form>
+</div>
+
+</body>
+<script>
+    layui.use('form',function () { //表单初始化
+        var form=layui.form;
+
+        //自定义表单规则
+        form.verify({
+            username:function (value) {
+                if (value.length==0){
+                    return "账号不可以为空，请输入账号"
+                }
+                if (value.length<3||value.length>10){
+                    return "账号长度必须在3-10个字符之间"
+                }
+            },
+            password:function (value) {
+                if (value.length==0){
+                    return "输入密码不可以为空，请输入密码！"
+                }
+                if (value.length<6||value.length>12){
+                    return "输入密码超出限制规则，密码字段必须在6-12之间"
+                }
+            }
+        })
+
+
+        //监听提交
+        form.on('submit(login_button)',function (data) {
+            $.get(WEBURL_API+"backstage/login"
+            ,$("#myForm").serialize()
+
+            ,function (msg) {
+                    if (msg.code==code_success){
+
+                        window.location.href="index.html"
+                    } else {
+                        layer.msg(msg.msg)
+                    }
+                })
+            return false;
+        })
+
+
+    })
+</script>
+</html>

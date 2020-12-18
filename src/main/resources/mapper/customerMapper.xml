@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 指明这个映射文件adminMapper.xml的逻辑路径,如果与接口建立映射，那么逻辑路径应该与接口的物理路径一致-->
+<mapper namespace="com.zexcustomer.springboot.dao.CustomerDao">
+    <!--自定义返回的类型-->
+    <resultMap id="customer" type="Customer">
+
+
+        <association property="creator" javaType="Admin" column="creatorId"
+                     select="com.zexcustomer.springboot.dao.AdminDao.get">
+        </association>
+    </resultMap>
+    <select id="get" resultType="Customer">
+        select * from customer where id=#{id}
+    </select>
+    
+    <select id="getCusContractname" resultType="Customer">
+        select  * from customer where contractname=#{contractname}
+    </select>
+
+    <select id="readAll" resultType="Customer">
+        select * from  customer order by id asc
+    </select>
+
+    <select id="query" resultType="Customer">
+        select c.*,cc.contractnumber,cc.contractname from customer c left join c_contract cc on c.connumber=cc.contractnumber
+        <if test="objectQuery!=null">
+            <where>
+                <if test="objectQuery.company!=null and objectQuery.company>0">
+                    <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+                    <bind name="company" value="'%'+_parameter.objectQuery.company+'%'"/>
+                    and company like #{company}
+                </if>
+
+            </where>
+        </if>
+    </select>
+
+    <select id="querySize" resultType="int">
+        select count(1) from  customer
+        <if test="objectQuery!=null">
+            <where>
+                <if test="objectQuery.company!=null and objectQuery.contractname>0">
+                    <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+                    <bind name="company" value="'%'+_parameter.objectQuery.company+'%'"/>
+                    and company like #{company}
+                </if>
+            </where>
+        </if>
+    </select>
+
+</mapper>

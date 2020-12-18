@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统首页</title>
+    <!--layui插件导入-->
+    <link rel="stylesheet" href="../plugins/layui/css/layui.css">
+    <script src="../plugins/layui/layui.js"></script>
+    <script src="../plugins/jquery.js"></script>
+    <!--导入自己的插件 -->
+    <script src="../js/my_base_js.js"></script>
+
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header layui-bg-blue">
+        <div class="layui-logo" style="color: white">知而行客户管理信息系统</div>
+        <!--头部区域 -->
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <i class="layui-icon layui-icon-notice" style="font-size: 30px; color: #FFFFFF;"></i>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="../image/nopic.jpg" class="layui-nav-img">
+                    <span id="username" ></span>
+                </a>
+
+                <dl class="layui-nav-child">
+                    <a href="javascript:;">基本资料</a>
+                    <a href="javascript:;">修改密码</a>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="#" id="logout">退出</a></li>
+        </ul>
+
+    </div>
+
+    <div class="layui-side " style="background-color: #738ffe;background: linear-gradient(#4d69ff,white)">
+        <div class="layui-side-scroll ">
+            <!-- 左侧导航-->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test" style="background-color: #78909c">
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">管理员管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" target="mainFrame" >管理员列表</a></dd>
+                        <dd><a href="javascript:;" target="mainFrame" >添加管理员</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">客户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a  href="customer/customermanage.html" target="mainFrame">客户列表</a></dd>
+                        <dd><a  href="customer/customeradd.html" target="mainFrame">添加客户</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">合同管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a name="openAtMainLayout" href="javascript:;">合同列表</a> </dd>
+                        <dd><a name="openAtMainLayout" href="javascript:;">添加合同</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">系统管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" >系统权限</a></dd>
+                        <dd><a href="javascript:;" >应用权限</a></dd>
+                        <dd><a href="javascript:;" >子系统管理</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+
+        <div class="layui-body" style="padding: 15px">
+            <!--内容主体区域-->
+            <iframe src="" id="mainFrame" name="mainFrame" frameborder="no" scrolling="auto" width="100%" height="100%"></iframe>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    layui.use('element',function () {
+        var  element=layui.element
+    })
+</script>
+<script>
+    layui.use('layer',function () {
+        var layer=layui.layer;
+        var timestamp=Date.parse(new Date())//获得时间戳配合地址传给服务器，这样可以不缓存随时刷新
+
+        $("#logout").click(function (e) {
+            $.get(WEBURL_API+"backstage/logout",
+                function (data) {
+                    if (data.code==0){
+                        layer.open({
+                            btnAlign:'c' ,  //按钮居中
+                            content:"注销成功，欢迎访问本站",
+                            yes:function (index,layero){
+                                window.location.href="login.html";
+                                layer.close(index)
+                            }
+                        })
+                    }else {
+                        layer.msg(msg.msg)
+                    }
+                })
+        });
+        //读取当前用户
+        $.getJSON(
+            WEBURL_API+"backstage/admin",
+            function (msg) {
+                if (msg.code==code_success){
+                    var admin=msg.data;
+
+                    $("#username").html(admin.username)
+                }
+            }
+        )
+    })
+</script>
+</html>

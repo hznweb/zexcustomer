@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加客户信息</title>
+    <!--导入layui插件-->
+    <link rel="stylesheet" href="../../plugins/layui/css/layui.css">
+    <script src="../../plugins/layui/layui.js"></script>
+    <!--导入jQuery插件-->
+    <script src="../../plugins/jquery.js"></script>
+
+    <!--导入自己的插件-->
+    <script src="../../js/my_base_js.js"></script>
+</head>
+<body>
+<form id="myForm" class="layui-form" action="" style="width: 500px;margin-left: 80px;margin-top: 20px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">公司名称：</label>
+        <div class="layui-input-block">
+            <input type="text" name="company" lay-verify="company" autocomplete="off" placeholder="请输入公司全称" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">公司地址：</label>
+        <div class="layui-input-block">
+            <input type="text" name="address" lay-verify="address" autocomplete="off" placeholder="请输入公司地址" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+    <label class="layui-form-label">公司法人：</label>
+    <div class="layui-input-block">
+        <input type="text" name="legal_person" lay-verify="legal_person" autocomplete="off" placeholder="请输入公司法人的名字" class="layui-input">
+    </div>
+    </div>
+
+    <div class="layui-form-item">
+    <label class="layui-form-label">联系人：</label>
+    <div class="layui-input-block">
+        <input type="text" name="contacts" lay-verify="contacts" autocomplete="off" placeholder="请输入公司法人的名字" class="layui-input">
+    </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系电话：</label>
+        <div class="layui-input-block">
+            <input type="text" name="phone" lay-verify="phone" autocomplete="off" placeholder="请输入公司法人的名字" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="addCutomer">添加合同信息</button>
+        </div>
+    </div>
+
+
+
+</form>
+</body>
+</html>
